@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rotating Inner Circle TODO</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      .outer-circle {
+        width: 200px;
+        height: 200px;
+        border: 2px solid;
+        background-color: yellow;
+        border-radius: 50%;
+        margin-top: 100px;
+        position: relative;
+      }
+
+      .inner-circle {
+        width: 50px;
+        height: 50px;
+        border: 2px solid;
+        background-color: greenyellow;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: rotate(0deg) translate(80px) rotate(0deg);
+        transform-origin: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>todo</h3>
+    <div class="outer-circle">
+      <div id="innerCircle" class="inner-circle"></div>
+    </div>
+
+    <script>
+      const innerCircle = document.getElementById("innerCircle");
+
+      document.addEventListener("mousemove", (e) => {
+        console.log("Mouse at:", e.clientX, e.clientY);
+      });
+
+      let angle = 0;
+      function rotate() {
+        angle += 1;
+        innerCircle.style.transform = `rotate(${angle}deg) translate(20px) rotate(-${angle}deg)`;
+        requestAnimationFrame(rotate);
+      }
+    </script>
+  </body>
+</html>
