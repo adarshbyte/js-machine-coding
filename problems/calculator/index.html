@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator app</title>
+    <style>
+        ul {
+           list-style: none;
+           display: flex;
+           flex-wrap: wrap;
+        }
+        ul li {
+            width: 25%;
+            margin: 10px;
+            padding: 5px;
+            text-align: center;
+        }
+        button{
+            cursor: pointer;
+        }
+        ul li button {
+            background-color: lightblue;
+            padding: 15px;
+            border-radius: 10%;
+            cursor: pointer;
+        }
+        #actionButtons button{
+            background-color: lightgreen;
+        }
+    </style>
+    
+</head>
+<body>
+    <div>
+    <label htmlFor="inputElement">please click to enter numbers</label>
+    <input type="text" id="inputElement"/>
+    <ul>
+        <li><button class="num">1</button></li>
+        <li><button class="num">2</button></li>
+        <li><button class="num">3</button></li>
+        <li><button class="num">4</button></li>
+        <li><button class="num">5</button></li>
+        <li><button class="num">6</button></li>
+        <li><button class="num">7</button></li>
+        <li><button class="num">8</button></li>
+        <li><button class="num">9</button></li>
+        <li><button class="num">0</button></li>
+        
+    </ul>
+    <ul id="actionButtons">
+        <li>
+            <button id="add" class="action">+</button>
+        </li>
+        <li>
+            <button id="subtract" class="action">-</button>
+        </li> 
+        <li>
+            <button id="multiply" class="action">*</button>
+        </li>
+        <li>
+            <button id="divide" class="action">/</button>
+        </li>
+    </ul>
+    <button type="button" onclick="calculate()">Calculate</button>
+        <h3>Result: </h3>
+        <h4 id="result"></h4>
+    </div>
+    <script>
+        const numbers = document.getElementsByClassName('num');
+        const actions = document.getElementsByClassName('action')
+        const inputElement = document.getElementById('inputElement');
+        console.log(numbers,"numbers")
+        const addToInput = (number)=>{
+            inputElement.innerText=inputElement.innerText+number;
+            }
+        for (let button of numbers) {
+            button.addEventListener('click', () => {
+                inputElement.value += button.textContent;
+            });
+        }
+         for (let button of actions) {
+            button.addEventListener('click', () => {
+                inputElement.value += button.textContent;
+            });
+        }
+        const calculate = ()=>{
+            let str = document.getElementById('inputElement').value;
+            console.log(str);
+            try{
+                let result = eval(str);
+                document.getElementById('result').innerText=result;
+            }catch(e){
+                alert('error')
+            }
+        }
+    </script>
+</body>
+
+</html>
