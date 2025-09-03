@@ -28,6 +28,8 @@
 <body>
     <h2 style="text-align: center;">tic tac toe</h2>
     <h3 style="text-align: center;" id="currentPlayer"></h3>
+    <h3 style="text-align: center;" id="Winner"></h3>
+
     <ul id="box">
     </ul>
     <script>
@@ -130,6 +132,7 @@
             }
             updateBoard(e.target.key);
             getWinner();
+            document.getElementById('Winner').textContent=window.winner?`Winner is ${window.winner}`:'';
         }
     </script>
 </body>
