@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+       
+        ul{
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            width: 400px;
+            height: 400px;
+        }
+        ul li{
+            width:30%;
+            height: 30%;
+            border:2px solid;
+            margin-right: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align: center;">tic tac toe</h2>
+    <h3 style="text-align: center;" id="currentPlayer"></h3>
+    <ul id="box">
+    </ul>
+    <script>
+        this.currentPlayer = 'X';
+        this.boardState=Array.from({length:9}).fill('');
+        function renderBoard(){
+            let parentElement=document.getElementById('box');
+            this.boardState.forEach((element,id) => {
+                let li=document.createElement('li')
+                li.id=`li-${id}`;
+                li.key=id
+                li.textContent="";
+                parentElement.appendChild(li);
+                li.addEventListener('click',play);
+            });
+            document.getElementById('currentPlayer').textContent=`Current Player: ${this.currentPlayer}`;
+        }
+        renderBoard()
+        function togglePlayer(){
+            if(currentPlayer==='X'){
+                this.currentPlayer='O';
+            }else{
+                this.currentPlayer='X';
+            }
+        }
+        function updateBoard(cardIndex){
+            if(this.boardState[cardIndex]===''){
+                this.boardState[Number(cardIndex)]=this.currentPlayer;
+                document.getElementById(`li-${cardIndex}`).textContent=this.currentPlayer
+                togglePlayer();
+            }else{
+                return;
+            }
+        }
+        function getWinner(){
+            for(let row=0;row<3;row+=1){
+                let countOfX=0,countOfY=0;
+                for(let col=0;col<3;col+=1){
+                    let cardIndex=row*3+(col);
+                    if(this.boardState[cardIndex]==='X'){
+                        countOfX+=1;
+                    }else if(this.boardState[cardIndex]==='O'){
+                        countOfY+=1;
+                    }
+                }
+                if(countOfX===3){
+                    window.winner='X';
+                }else if(countOfY===3){
+                    window.winner='O'
+                }
+            }
+            
+            for(let col=0;col<3;col+=1){
+                let countOfX=0,countOfY=0;
+                for(let row=0;row<3;row+=1){
+                    let cardIndex=row*3+(col);
+                    if(this.boardState[cardIndex]==='X'){
+                        countOfX+=1;
+                    }else if(this.boardState[cardIndex]==='O'){
+                        countOfY+=1;
+                    }
+                }
+                if(countOfX===3){
+                    window.winner='X';
+                }else if(countOfY===3){
+                    window.winner='O'
+                }
+            }
+            
+            // for diagonal
+            let countOfX=0,countOfY=0
+            for(let row=0,col=0;row<3,col<3;row+=1,col+=1){
+                let cardIndex=row*3+col;
+                if(this.boardState[cardIndex]==='X'){
+                    countOfX+=1;
+                }else if(this.boardState[cardIndex]==='O'){
+                    countOfY+=1;
+                }
+            }
+            if(countOfX===3 && countOfY===3){
+                window.winner=countOfX===3?'X':'O';
+            }
+            countOfX=0,countOfY=0;
+            for(let row=2,col=2;row>=0,col>=0;row-=1,col-=1){
+                let cardIndex=row*3+col;
+                if(this.boardState[cardIndex]==='X'){
+                    countOfX+=1;
+                }else if(this.boardState[cardIndex]==='O'){
+                    countOfY+=1;
+                }
+            }
+            if(countOfX===3 && countOfY===3){
+                window.winner=countOfX===3?'X':'O';
+            }
+        }
+        function play(e){
+            if(window.winner){
+                alert(`winner already here: ${window.winner}`);
+                return;
+            }
+            updateBoard(e.target.key);
+            getWinner();
+        }
+    </script>
+</body>
+</html>
