@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-       
+        body{
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+            flex-direction: column;
+        }
         ul{
             list-style: none;
             display: flex;
@@ -23,6 +28,15 @@
             align-items: center;
             justify-content: center;
         }
+        #resetbutton{
+            background-color: lightblue;
+            border:gray;
+            padding: 10px;
+            width: 100px;
+            display: block;
+            margin: auto;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -32,6 +46,9 @@
 
     <ul id="box">
     </ul>
+    <button id="resetbutton">
+        Reset
+    </button>
     <script>
         this.currentPlayer = 'X';
         this.boardState=Array.from({length:9}).fill('');
@@ -46,6 +63,16 @@
                 li.addEventListener('click',play);
             });
             document.getElementById('currentPlayer').textContent=`Current Player: ${this.currentPlayer}`;
+            document.getElementById('resetbutton').addEventListener('click',reset)
+        }
+        function reset(){
+            window.winner="";
+            this.boardState=Array.from({length:9}).fill("");
+            this.currentPlayer="X";
+            let box=document.getElementById('box')
+            box.childNodes.forEach((child)=>{
+                child.textContent='';
+            })
         }
         renderBoard()
         function togglePlayer(){
@@ -60,8 +87,6 @@
                 this.boardState[Number(cardIndex)]=this.currentPlayer;
                 document.getElementById(`li-${cardIndex}`).textContent=this.currentPlayer
                 togglePlayer();
-            }else{
-                return;
             }
         }
         function getWinner(){
