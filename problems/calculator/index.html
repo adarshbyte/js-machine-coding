@@ -1,41 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calculator app</title>
     <style>
-        ul {
-           list-style: none;
-           display: flex;
-           flex-wrap: wrap;
-        }
-        ul li {
-            width: 25%;
-            margin: 10px;
-            padding: 5px;
-            text-align: center;
-        }
-        button{
-            cursor: pointer;
-        }
-        ul li button {
-            background-color: lightblue;
-            padding: 15px;
-            border-radius: 10%;
-            cursor: pointer;
-        }
-        #actionButtons button{
-            background-color: lightgreen;
-        }
+      body {
+        font-family: sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 30px;
+        background: #f0f0f0;
+      }
+      div {
+        background: white;
+        padding: 20px 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 320px;
+      }
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        font-size: 18px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+      ul {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0;
+        margin: 0 0 15px 0;
+      }
+      ul li {
+        width: 25%;
+        padding: 5px;
+        text-align: center;
+      }
+      ul li button {
+        width: 100%;
+        padding: 15px 0;
+        background-color: lightblue;
+        border: none;
+        border-radius: 10%;
+        font-size: 18px;
+        transition: background 0.2s;
+      }
+      ul li button:hover {
+        background-color: deepskyblue;
+        color: white;
+      }
+      #actionButtons button {
+        background-color: lightgreen;
+      }
+      #actionButtons button:hover {
+        background-color: limegreen;
+        color: white;
+      }
+      button[type="button"] {
+        width: 100%;
+        padding: 12px;
+        font-size: 18px;
+        background-color: #333;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        margin-top: 10px;
+        cursor: pointer;
+      }
+      button[type="button"]:hover {
+        background-color: #111;
+      }
+      h3,
+      h4 {
+        text-align: center;
+        margin: 10px 0 0 0;
+      }
+      #result {
+        font-size: 24px;
+        font-weight: bold;
+        color: #444;
+      }
     </style>
-    
-</head>
-<body>
+  </head>
+  <body>
     <div>
-    <label htmlFor="inputElement">please click to enter numbers</label>
-    <input type="text" id="inputElement"/>
-    <ul>
+      <label htmlFor="inputElement">please click to enter numbers</label>
+      <input type="text" id="inputElement" />
+      <ul>
         <li><button class="num">1</button></li>
         <li><button class="num">2</button></li>
         <li><button class="num">3</button></li>
@@ -46,55 +107,53 @@
         <li><button class="num">8</button></li>
         <li><button class="num">9</button></li>
         <li><button class="num">0</button></li>
-        
-    </ul>
-    <ul id="actionButtons">
+      </ul>
+      <ul id="actionButtons">
         <li>
-            <button id="add" class="action">+</button>
+          <button id="add" class="action">+</button>
         </li>
         <li>
-            <button id="subtract" class="action">-</button>
-        </li> 
-        <li>
-            <button id="multiply" class="action">*</button>
+          <button id="subtract" class="action">-</button>
         </li>
         <li>
-            <button id="divide" class="action">/</button>
+          <button id="multiply" class="action">*</button>
         </li>
-    </ul>
-    <button type="button" onclick="calculate()">Calculate</button>
-        <h3>Result: </h3>
-        <h4 id="result"></h4>
+        <li>
+          <button id="divide" class="action">/</button>
+        </li>
+      </ul>
+      <button type="button" onclick="calculate()">Calculate</button>
+      <h3>Result:</h3>
+      <h4 id="result"></h4>
     </div>
     <script>
-        const numbers = document.getElementsByClassName('num');
-        const actions = document.getElementsByClassName('action')
-        const inputElement = document.getElementById('inputElement');
-        console.log(numbers,"numbers")
-        const addToInput = (number)=>{
-            inputElement.innerText=inputElement.innerText+number;
-            }
-        for (let button of numbers) {
-            button.addEventListener('click', () => {
-                inputElement.value += button.textContent;
-            });
+      const numbers = document.getElementsByClassName("num");
+      const actions = document.getElementsByClassName("action");
+      const inputElement = document.getElementById("inputElement");
+      console.log(numbers, "numbers");
+      const addToInput = (number) => {
+        inputElement.innerText = inputElement.innerText + number;
+      };
+      for (let button of numbers) {
+        button.addEventListener("click", () => {
+          inputElement.value += button.textContent;
+        });
+      }
+      for (let button of actions) {
+        button.addEventListener("click", () => {
+          inputElement.value += button.textContent;
+        });
+      }
+      const calculate = () => {
+        let str = document.getElementById("inputElement").value;
+        console.log(str);
+        try {
+          let result = eval(str);
+          document.getElementById("result").innerText = result;
+        } catch (e) {
+          alert("error");
         }
-         for (let button of actions) {
-            button.addEventListener('click', () => {
-                inputElement.value += button.textContent;
-            });
-        }
-        const calculate = ()=>{
-            let str = document.getElementById('inputElement').value;
-            console.log(str);
-            try{
-                let result = eval(str);
-                document.getElementById('result').innerText=result;
-            }catch(e){
-                alert('error')
-            }
-        }
+      };
     </script>
-</body>
-
+  </body>
 </html>
