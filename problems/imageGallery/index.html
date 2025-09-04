@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image gallery</title>
+    <style>
+        ul li{
+            width: 300px;
+            height: 325px;
+            border:2px solid;
+            list-style: none;
+            margin-bottom: 10px;
+        }
+        ul li img{
+            width: 300px;
+            height: 300px;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .likeButton{
+            width: 80px;
+            height: 20px;
+            border:1px solid gray;
+            display: block;
+            cursor: pointer;
+            margin: auto;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h3>Image gallery</h3>
+    <ul class="gallery">
+    </ul>
+    <p style="height: 100px;border:2px solid gray;width: 50vw;" id="loading">loading...</p>
+    <script>
+        this.worker = new Worker('worker.js')
+        worker.onmessage=(e)=>{
+            if(e.data==='work done'){
+                console.log('main thread received',e.data);
+            }
+        }
+        
+        const addMoreImageElement=()=>{
+            let imgElement = addImage('https://images.unsplash.com/photo-1506744038136-46273834b3fb')
+            let images = localStorage.getItem('images') || '[]'
+            images = JSON.parse(images);
+            images.push(imgElement.src);
+            localStorage.setItem('images',JSON.stringify(images));
+        }
+        function addImage(url){
+            const UlElement = document.querySelector('ul');
+            let liElement= document.createElement('li')
+            let imgElement=document.createElement('img')
+            imgElement.src=url
+            imgElement.className="img"
+            let likeButton = document.createElement('button');
+            likeButton.textContent = '💖 Like';
+            likeButton.className="likeButton"
+            likeButton.addEventListener('click', () => {
+                likeButton.textContent = '💖 Liked';
+            });
+            liElement.appendChild(imgElement);
+            liElement.appendChild(likeButton)
+            // likeButton.addEventListener('click',()=>animateLike(likeButton))
+            UlElement.appendChild(liElement);
+            return imgElement
+        }
+        function renderImages(){
+            let images = JSON.parse(localStorage.getItem('images')) || [];
+            images.forEach(imageUrl=>{
+                addImage(imageUrl);
+            })
+            let ul=document.querySelector('ul');
+            // event delegation
+            ul.addEventListener('click',(e)=>{
+                if(e.target.className==='likeButton'){
+                    animateLike(e.target);
+                }
+            })
+        }
+        renderImages()
+        function loadMore(){
+            const loadingElement=document.getElementById('loading')
+            const intersectionObserver = new IntersectionObserver((entries)=>{
+                entries.forEach(entry=>{
+                    if(entry.isIntersecting){
+                        addMoreImageElement()
+                        addMoreImageElement()
+                        addMoreImageElement()
+                    }else{
+                        console.log('moved out')
+                    }
+                })
+            },{
+                root: null,
+                rootMargin: '0px 0px 300px 0px'
+            })
+            intersectionObserver.observe(loadingElement);
+        }
+        loadMore()
+
+        function animateLike(likeBtn){
+            let scale=1;
+            let direction =1;
+            function animate(){
+                // we increase the scale
+                scale+=.02*direction;
+                likeBtn.style.transform=`scale(${scale})`
+                if(scale>=4.3){
+                    direction=-1;
+                }
+                if(scale<=1 && direction===-1){
+                    likeBtn.style.transform='scale(1)'
+                    return;
+                }
+                requestAnimationFrame(animate);
+            }
+            requestAnimationFrame(animate)
+        }  
+        
+    </script>
+</body>
+</html>
