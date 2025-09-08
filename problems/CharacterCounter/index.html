@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .container {
+        background-color: #fff;
+        padding: 24px 32px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 520px;
+        max-width: 90%;
+      }
+
+      textarea {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        resize: vertical;
+      }
+
+      p {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #333;
+      }
+
+      #remainingTokens {
+        font-weight: bold;
+        color: green;
+        transition: color 0.3s ease;
+      }
+
+      #remainingTokens[style*="red"] {
+        color: red !important;
+      }
+    </style>
+  </head>
+  <body>
+    <p>
+        Problem:
+
+        Build a simple live character counter using plain JavaScript.
+
+        A user types into a textarea.
+
+        Below it, show the number of characters remaining out of a max limit (say, 100).
+
+        When limit is exceeded, show the counter in red and disable further typing.
+    </p>
+    <textarea
+      id="textarea"
+      rows="10"
+      cols="50"
+      oninput="handleChange()"
+    ></textarea>
+    <p>Remaining limit : <span id="remainingTokens"></span></p>
+    <script>
+      function handleChange() {
+        let element = document.getElementById("textarea");
+        let remaining = 100 - element.value.length;
+        if (remaining <= 0) {
+          document.getElementById("remainingTokens").style.color = "red";
+          document.getElementById("remainingTokens").textContent = 0;
+          element.value = element.value.slice(0, 100);
+        } else {
+          document.getElementById("remainingTokens").style.color = "black";
+          document.getElementById("remainingTokens").textContent =
+            100 - element.value.length;
+        }
+      }
+    </script>
+  </body>
+</html>
