@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draggable Circle</title>
+    <style>
+        .circle{
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border:2px solid black;
+            transition: all .5s ease;
+        }
+        .dropzone{
+            width:400px;
+            height: 400px;
+            border:2px solid;
+        }
+        .grow{
+            width: 200px;
+            height: 200px;
+            transform: scale(2);
+        }
+    </style>
+</head>
+<body>
+    <div class="circle" draggable="true"></div>
+    <div> 
+        <p>drop zone</p>
+        
+        <div class="dropzone">
+        </div>
+    </div>
+    <script>
+        let circle = document.getElementsByClassName('circle')[0]
+        let dropzone = document.getElementsByClassName('dropzone')[0]
+        console.log(circle,dropzone)
+        dropzone.addEventListener('dragover',(e)=>{
+            e.preventDefault();
+        })
+        dropzone.addEventListener('drop',()=>{
+            circle.classList.add('grow')
+            setTimeout(()=>{
+                circle.classList.remove('grow')
+            },200)
+            dropzone.appendChild(circle)
+            document.removeChild(circle)
+        })
+    </script>
+</body>
+</html>
