@@ -6,7 +6,7 @@
  *
  * Return a Promise that resolves when all tasks are done.
  */
-async function promisePool(tasks, concurrency) {
+async function batchPool(tasks, concurrency) {
   try {
     let countTillNow = 0;
     let toExecute = [];
@@ -16,7 +16,6 @@ async function promisePool(tasks, concurrency) {
       toExecute.push(tasks[i]);
       if (countTillNow === concurrency) {
         let res = await Promise.all(toExecute.map((fn) => fn()));
-        console.log(res, "insde of here");
         finalResult.push(...res);
         countTillNow = 0;
         toExecute = [];
@@ -41,7 +40,7 @@ function generatePromises(count) {
 
 (async () => {
   try {
-    let res = await promisePool(generatePromises(5), 2);
+    let res = await batchPool(generatePromises(5), 2);
     console.log(res, "result");
   } catch (e) {
     console.log(e, "Error");
